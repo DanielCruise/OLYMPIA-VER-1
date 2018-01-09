@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MC - VCNV</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background-image: url("BackgroundCandidate.jpg");
+            background-size: cover;
+        }
+
+        .Menu {
+            position: relative;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+            display: inline-block;
+            float: right;
+            width: 30px;
+            z-index: 50;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 250px;
+            right: 0;
+            text-align: right;
+            box-shadow: black 3px 3px;
+            background-color: gray;
+            cursor: pointer;
+        }
+
+        .Menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p {
+            margin: 0;
+            border: 1px solid black;
+            padding: 10px 10px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-content p:hover {
+            display: block;
+            color: white;
+            font-size: 15px;
+            background-color: black;
+        }
+
+        #SectionName, #Time {
+            position: fixed;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+            color: white;
+            margin-left: 150px;
+        }
+
+        #Time {
+            font-size: 60px;
+            margin-left: 1000px;
+            margin-top: 20px;
+        }
+
+        #obstacleQuestionPane {
+            position: fixed;
+            background-color: black;
+            height: 250px;
+            width: 1200px;
+            margin-left: 75px;
+            margin-top: 100px;
+            border: white 2px solid;
+            color: white;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        input {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        #clock {
+            position: fixed;
+            margin-left: 1100px;
+            margin-top: 20px;
+        }
+
+        #ansPane {
+            position: fixed;
+            background-color: white;
+            font-size: 50px;
+            text-align: center;
+            margin-top: 400px;
+            margin-left: 75px;
+            height: 60px;
+            width: 1200px;
+            font-family: Arial;
+            font-weight: bold;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        #copyright {
+            position: fixed;
+            font-size: 15px;
+            font-family: Arial;
+            font-weight: bold;
+            bottom: -10px;
+            color: white;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<i id="nameOfCan" style="position: fixed; color: white; font-family: Arial; font-weight: bold; font-size: 20px">MÁY TÍNH MC</i>
+<div class="Menu">
+    <p class="buttonDropdown">=</p>
+    <div class="dropdown-content">
+        <p><a href="MC - KHỞI ĐỘNG.html" style="text-decoration: none; color: white">KHỞI ĐỘNG</a></p>
+        <p><a href="MC - VCNV.html" style="text-decoration: none; color: white">VƯỢT CHƯỚNG NGẠI VẬT</a></p>
+        <p><a href="MC - TĂNG TỐC.html" style="text-decoration: none; color: white">TĂNG TỐC</a></p>
+        <p><a href="MC - VỀ ĐÍCH.html" style="text-decoration: none; color: white">VỀ ĐÍCH</a></p>
+        <p><a href="MC - CÂU HỎI PHỤ.html" style="text-decoration: none; color: white">CÂU HỎI PHỤ</a></p>
+    </div>
+</div>
+<p id="SectionName"></p>
+<p id="Time"></p>
+<img src="clock1.gif" id="clock" height="70px" width="70px">
+<p id="control" style="position: fixed; display: none"></p>
+<section id="obstacle">
+    <p id="obstacleQuestionPane"></p>
+    <p id="ansPane"></p>
+</section>
+<p id="copyright"><i>&copy; TRƯƠNG ĐÌNH ĐỨC - THÍ SINH "ĐƯỜNG LÊN ĐỈNH OLYMPIA" NĂM THỨ 15</i></p>
+</body>
+<script>
+    var obstacleTime = 15;
+    var control = 0;
+    var obsSet = false;
+    var sectionPane = document.getElementById('SectionName');
+    var timePane = document.getElementById('Time');
+    var obstaclePane = document.getElementById('obstacleQuestionPane');
+    var obsInterval = setInterval(initializedInterval, 1000);
+    var x = setInterval(initializedInterval, 1000);
+    var y = setInterval(initializedInterval, 1000);
+    var z = setInterval(initializedInterval, 1000);
+
+
+
+    function obstacle() {
+        clearAllInterval();
+        setObstacle();
+        obsInterval = setInterval(obstacleConnect, 100);
+        rejectAnswer = setInterval(obstacleLocks, 10);
+    }
+
+    obstacle();
+
+    function setObstacle() {
+        sectionPane.innerHTML = "PHẦN THI VƯỢT CHƯỚNG NGẠI VẬT";
+        timePane.innerHTML = obstacleTime;
+        var time = obstacleTime;
+        if (!obsSet) {
+            x = setInterval(function () {
+                if (obstaclePane.innerHTML != '' && control == 1) {
+                    clearInterval(x);
+                    clearInterval(obsInterval);
+                    setTimeout(function () {
+                        timePane.innerHTML = obstacleTime;
+                    }, 20000);
+                    setTimeout(function () {
+                        obsInterval = setInterval(obstacleConnect, 200);
+                    }, 30000);
+                    z = setInterval(function () {
+                        time--;
+                        timePane.innerHTML = time;
+                    }, 1000);
+                    y = setInterval(function () {
+                        if (time < 0) {
+                            clearInterval(z);
+                            clearInterval(y);
+                            time = 0;
+                            timePane.innerHTML = "0";
+                        }
+                    }, 10);
+                }
+            }, 10);
+            obsSet = true;
+        }
+    }
+
+    function obstacleConnect() {
+        $('#control').load('ObsRemote.php');
+        if ($('#control').html() == '0') {
+            control = 0;
+            onQues();
+            if (!obsSet) setObstacle();
+        }
+
+        else if ($('#control').html() == '1') {
+            control = 1;
+            obsSet = false;
+        }
+
+        else if ($('#control').html() == '2') {
+            control = 2;
+            onQues();
+        }
+    }
+
+    function onQues() {
+        $('#obstacleQuestionPane').load('ObsQuestion.php');
+        $('#ansPane').load('ObsAns.php');
+    }
+
+
+    function initializedInterval() {
+
+    }
+
+    function clearAllInterval() {
+        clearInterval(obsInterval);
+        clearInterval(x);
+        clearInterval(y);
+        clearInterval(z);
+    }
+</script>
+</html>

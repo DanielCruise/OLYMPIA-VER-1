@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DẪN CHƯƠNG TRÌNH</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background-image: url("BackgroundCandidate.jpg");
+            background-size: cover;
+        }
+
+        #bigSection {
+            position: fixed;
+            color: yellow;
+            font-size: 60px;
+            width: 100%;
+            font-family: Arial;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .Menu {
+            position: relative;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+            display: inline-block;
+            float: right;
+            width: 30px;
+            z-index: 50;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 250px;
+            right: 0;
+            text-align: right;
+            box-shadow: black 3px 3px;
+            background-color: gray;
+            cursor: pointer;
+        }
+
+        .Menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p:hover {
+            margin: 0;
+            border: 1px solid black;
+            padding: 10px 10px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        #SectionName, #Time {
+            position: fixed;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+            color: yellow;
+            margin-left: 150px;
+        }
+
+        #Time {
+            font-size: 60px;
+            margin-left: 1000px;
+            margin-top: 20px;
+        }
+
+        #warmingUpQuestionPane {
+            position: fixed;
+            background-color: black;
+            height: 400px;
+            width: 1200px;
+            margin-left: 75px;
+            margin-top: 100px;
+            border: yellow 2px solid;
+            color: white;
+            font-size: 50px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #warmingUpAnsPane {
+            position: fixed;
+            margin-left: 76px;
+            margin-top: 550px;
+        }
+
+        #obstacleQuestionPane, #acceQuestionPane, #finishingQuestionPane {
+            position: fixed;
+            background-color: black;
+            height: 250px;
+            width: 1200px;
+            margin-left: 75px;
+            margin-top: 100px;
+            border: yellow 2px solid;
+            color: white;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #obstacAns p, #obstacSent p, #acceAns p, #acceSent p {
+            float: left;
+            font-size: 25px;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #obstacSent, #acceSent {
+            position: fixed;
+            margin-top: 450px;
+        }
+
+
+        #finishingQuestionPane {
+            height: 400px;
+        }
+
+        form {
+            position: fixed;
+            margin-left: 330px;
+            margin-top: 300px;
+        }
+
+        label {
+            font-size: 30px;
+            color: yellow;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        input {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        button {
+            position: fixed;
+            padding: 10.5px 15px;
+            margin-top: 300px;
+            margin-left: 920px;
+            font-weight: bold;
+            color: red;
+            background-color: yellow;
+        }
+
+        #clock {
+            position: fixed;
+            margin-left: 1100px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="Menu">
+    <p class="buttonDropdown">=</p>
+    <div class="dropdown-content">
+        <p onclick="warmingUp()">KHỞI ĐỘNG</p>
+        <p onclick="obstacle()">VƯỢT CHƯỚNG NGẠI VẬT</p>
+        <p onclick="acceleration()">TĂNG TỐC</p>
+        <p onclick="finishing()">VỀ ĐÍCH</p>
+    </div>
+</div>
+<p id="bigSection"><i>ĐƯỜNG LÊN ĐỈNH OLYMPIA</i></p>
+<p id="SectionName">PHẦN THI KHỞI ĐỘNG</p>
+<p id="Time">60</p>
+<img src="clock1.gif" id="clock" height="70px" width="70px">
+<section id="warmingUp">
+    <p id="warmingUpQuestionPane">Haiku là thể loại thơ đặc trưng của nền văn học quốc gia nào?</p>
+    <input id="warmingUpAnsPane" size="39.5" disabled style="font-size: 50px; text-align: center" value="NHẬT BẢN">
+</section>
+<section id="obstacle">
+    <p id="obstacleQuestionPane">Vĩ tuyến nào ở bắc bán cầu chạy ngang qua dãy núi Bạch Mã?</p>
+    <div id="obstacSent">
+        <p>ĐÁP ÁN: </p>
+        <input size="38" disabled style="font-size: 50px; text-align: center">
+    </div>
+</section>
+<section id="acceleration">
+    <p id="acceQuestionPane">Tìm số thích hợp điền vào dấu "?".</p>
+    <div id="acceSent">
+        <p>ĐÁP ÁN: </p>
+        <input size="38" disabled style="font-size: 50px; text-align: center" value="C">
+    </div>
+</section>
+<section id="finishing">
+    <p id="finishingQuestionPane">Được xây dựng vào năm 1397, thành nhà Hồ được coi là một tòa thành bằng đá có kiến trúc độc đáo và là tòa thành đá hiếm hoi còn lại trên thế giới cho đến ngày nay. Được xây dựng nên từ nhiều khối đá lớn, tuy nhiên những khối đá này không hề được kết nối bằng bất kì chất liệu kết dính nào. Vậy tại sao chúng có thể kết dính với nhau để tạo nên một tòa thành kiên cố và vững chắc như vậy?
+    </p>
+</section>
+</body>
+<script>
+    var warmingUpTime = 60;
+    var obstacleTime = 15;
+    var accelerationTime = 30;
+    var finishingTime = [10, 15, 20];
+    var sectionPane = document.getElementById('SectionName');
+    var timePane = document.getElementById('Time');
+
+    $("#SectionName").hide();
+    $("#Time").hide();
+    $('#warmingUp').hide();
+    $('#obstacle').hide();
+    $('#acceleration').hide();
+    $('#finishing').hide();
+    $("#clock").hide();
+
+    function warmingUp() {
+        onSection("#warmingUp");
+        setTimeAndSection("KHỞI ĐỘNG", warmingUpTime);
+    }
+
+    function obstacle() {
+        onSection("#obstacle");
+        setTimeAndSection("VƯỢT CHƯỚNG NGẠI VẬT", obstacleTime);
+    }
+
+    function acceleration() {
+        onSection("#acceleration");
+        setTimeAndSection("TĂNG TỐC", accelerationTime);
+    }
+
+    function finishing() {
+        onSection("#finishing");
+        setTimeAndSection("VỀ ĐÍCH", finishingTime[2]);
+    }
+
+    function setTimeAndSection(sectionName, time) {
+        sectionPane.innerHTML = "PHẦN THI " + sectionName;
+        timePane.innerHTML = time;
+        var x = setInterval(function () {
+            time--;
+            timePane.innerHTML = time;
+            if (time < 0) {
+                clearInterval(x);
+                timePane.innerHTML = "0";
+            }
+        }, 1000);
+    }
+    function onSection(sectionName) {
+        $('#bigSection').hide();
+        $('#login').hide();
+        $('#warmingUp').hide();
+        $('#obstacle').hide();
+        $('#acceleration').hide();
+        $('#finishing').hide();
+        $(sectionName).show();
+        if (sectionName != "#login") {
+            $("#SectionName").show();
+            $("#Time").show();
+            $("#clock").show();
+        } else {
+            $(sectionName).show();
+            $("#bigSection").show();
+            $("#SectionName").hide();
+            $("#Time").hide();
+            $("#clock").hide();
+        }
+    }
+</script>
+</html>

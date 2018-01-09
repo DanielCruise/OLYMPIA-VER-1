@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THÍ SINH 3 - CÂU HỎI PHỤ</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background-image: url("BackgroundCandidate.jpg");
+            background-size: cover;
+        }
+
+        .Menu {
+            position: relative;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+            display: inline-block;
+            float: right;
+            width: 30px;
+            z-index: 50;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 250px;
+            right: 0;
+            text-align: right;
+            box-shadow: black 3px 3px;
+            background-color: gray;
+            cursor: pointer;
+        }
+
+        .Menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p {
+            margin: 0;
+            border: 1px solid black;
+            padding: 10px 10px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-content p:hover {
+            display: block;
+            color: white;
+            font-size: 15px;
+            background-color: black;
+        }
+
+        #SectionName, #Time {
+            position: fixed;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+            color: white;
+            margin-left: 150px;
+        }
+
+        #Time {
+            font-size: 60px;
+            margin-left: 1000px;
+            margin-top: 20px;
+        }
+
+        #extraQuestionPane {
+            position: fixed;
+            background-color: black;
+            height: 500px;
+            width: 1200px;
+            margin-left: 75px;
+            margin-top: 100px;
+            border: white 2px solid;
+            color: white;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #extraButton {
+            position: fixed;
+            font-weight: bold;
+            background-color: red;
+            color: white;
+            margin-top: 620px;
+            font-size: 30px;
+            margin-left: 75px;
+            padding: 10px 414px;
+        }
+
+        #clock {
+            position: fixed;
+            margin-left: 1100px;
+            margin-top: 20px;
+        }
+
+        #copyright {
+            position: fixed;
+            font-size: 15px;
+            font-family: Arial;
+            font-weight: bold;
+            bottom: -10px;
+            color: white;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<i id="nameOfCan" style="position: fixed; font-family: Arial; font-weight: bold; color: white; font-size: 20px"></i>
+<div class="Menu">
+    <p class="buttonDropdown">=</p>
+    <div class="dropdown-content">
+        <p><a href="THÍ SINH 3 - NHẬP TÊN.html" style="text-decoration: none; color: white">NHẬP TÊN</a></p>
+        <p><a href="THÍ SINH 3 - KHỞI ĐỘNG.html" style="text-decoration: none; color: white">KHỞI ĐỘNG</a></p>
+        <p><a href="THÍ SINH 3 - VCNV.html" style="text-decoration: none; color: white">VƯỢT CHƯỚNG NGẠI VẬT</a></p>
+        <p><a href="THÍ SINH 3 - TĂNG TỐC.html" style="text-decoration: none; color: white">TĂNG TỐC</a></p>
+        <p><a href="THÍ SINH 3 - VỀ ĐÍCH.html" style="text-decoration: none; color: white">VỀ ĐÍCH</a></p>
+        <p><a href="THÍ SINH 3 - CÂU HỎI PHỤ.html" style="text-decoration: none; color: white">CÂU HỎI PHỤ</a></p>
+    </div>
+</div>
+<p id="allowGranted" style="position: fixed; color: green; display: none"></p>
+<p id="SectionName"></p>
+<p id="Time">0</p>
+<p id="control" style="position: fixed; color: white; margin-left: 20px; display: none"></p>
+<img src="clock1.gif" id="clock" height="70px" width="70px">
+<section id="extra">
+    <p id="fiTimeQues" style="position: fixed; color: white; margin-left: 40px; display: none"></p>
+    <p id="extraQuestionPane"></p>
+    <button id="extraButton" onclick="extraGranted()">QUYỀN TRẢ LỜI CÂU HỎI</button>
+</section>
+<p id="copyright"><i>&copy; TRƯƠNG ĐÌNH ĐỨC - THÍ SINH "ĐƯỜNG LÊN ĐỈNH OLYMPIA" NĂM THỨ 15</i></p>
+</body>
+<script>
+    var control = 0;
+    var sectionPane = document.getElementById('SectionName');
+    var extraSet = false;
+    var countdownSet = false;
+    var time = 1600;
+    var allowed = document.getElementById('allowGranted');
+    var extraPane = document.getElementById('extraQuestionPane');
+    var extraInterval = setInterval(initializedInterval, 1000);
+    var x = setInterval(initializedInterval, 1000);
+    var z = setInterval(initializedInterval, 1000);
+
+    function extra() {
+        clearAllInterval();
+        $('#nameOfCan').load("echoName.php");
+        sectionPane.innerHTML = "PHẦN THI CÂU HỎI PHỤ";
+        extraInterval = setInterval(extraConnect, 100);
+    }
+
+    extra();
+    $('#Time').html((time - 100) / 100);
+
+    function setExtra() {
+        $('#Time').html((time - 100) / 100);
+        if (!extraSet) {
+            x = setInterval(function () {
+                if (extraPane.innerHTML != '' && control == 1) {
+                    clearInterval(x);
+                }
+            }, 10);
+            extraSet = true;
+        }
+    }
+
+    function extraGranted() {
+        if (allowed.innerHTML == '1' && parseInt($('#Time').html()) > 0) {
+            $.ajax({
+                url: "../FILE XÁC NHẬN/CÂU HỎI PHỤ/ExtraGranted3.php",
+                type: "POST",
+                data: {'grantedExtra3': 1},
+                success: function () {
+                }
+            });
+        } else {
+            $.ajax({
+                url: "../FILE XÁC NHẬN/CÂU HỎI PHỤ/ExtraGranted3.php",
+                type: "POST",
+                data: {'grantedExtra3': 0},
+                success: function () {
+                }
+            });
+        }
+    }
+
+    function extraConnect() {
+        $('#allowGranted').load('Extra3.php');
+        if ($('#allowGranted').html() == "1") {
+            control = 1;
+            extraSet = false;
+            if (!countdownSet) {
+                z = setInterval(function () {
+                    time--;
+                    $('#Time').html(parseInt(time / 100));
+                    if (time <= 0) {
+                        clearInterval(z);
+                        time = 1600;
+                        setTimeout(function () {
+                            $('#Time').html((time - 100) / 100);
+                        }, 3000);
+                    }
+                }, 10);
+                countdownSet = true;
+            }
+        }
+
+        if ($('#allowGranted').html() == "0") {
+            control = 0;
+            clearInterval(z);
+            countdownSet = false;
+            extraQues();
+            if (time <= 0) {
+                time = 1600;
+                clearInterval(z);
+                controlSection(0);
+                setTimeout(function () {
+                    $('#Time').html((time - 100) / 100);
+                }, 3000);
+                if (!extraSet) setExtra();
+            }
+        }
+    }
+
+    function extraQues() {
+        $('#extraQuestionPane').load('extraQuestion.php');
+    }
+
+
+    function initializedInterval() {
+
+    }
+
+    function clearAllInterval() {
+        clearInterval(extraInterval);
+        clearInterval(x);
+        clearInterval(z);
+    }
+</script>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THÍ SINH 2 -TĂNG TỐC</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background-image: url("BackgroundCandidate.jpg");
+            background-size: cover;
+        }
+
+        .Menu {
+            position: relative;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+            display: inline-block;
+            float: right;
+            width: 30px;
+            z-index: 50;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 250px;
+            right: 0;
+            text-align: right;
+            box-shadow: black 3px 3px;
+            background-color: gray;
+            cursor: pointer;
+        }
+
+        .Menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p {
+            margin: 0;
+            border: 1px solid black;
+            padding: 10px 10px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-content p:hover {
+            display: block;
+            color: white;
+            font-size: 15px;
+            background-color: black;
+        }
+
+        #SectionName, #Time {
+            position: fixed;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+            color: white;
+            margin-left: 150px;
+        }
+
+        #Time {
+            font-size: 60px;
+            margin-left: 1000px;
+            margin-top: 20px;
+        }
+
+        #acceQuestionPane {
+            position: fixed;
+            background-color: black;
+            height: 250px;
+            width: 1200px;
+            margin-left: 75px;
+            margin-top: 100px;
+            border: white 2px solid;
+            color: white;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #acceAns {
+            position: fixed;
+            margin-top: 370px;
+        }
+
+        #acceAns p, #acceSent p {
+            float: left;
+            font-size: 25px;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #acceSent {
+            position: fixed;
+            margin-top: 450px;
+        }
+
+        form {
+            position: fixed;
+            margin-left: 330px;
+            margin-top: 300px;
+        }
+
+        label {
+            font-size: 25px;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        input {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        button {
+            position: fixed;
+            padding: 10.5px 15px;
+            margin-top: 300px;
+            margin-left: 920px;
+            font-weight: bold;
+            color: red;
+            background-color: white;
+        }
+
+        #clock {
+            position: fixed;
+            margin-left: 1100px;
+            margin-top: 20px;
+        }
+
+        #copyright {
+            position: fixed;
+            font-size: 15px;
+            font-family: Arial;
+            font-weight: bold;
+            bottom: -10px;
+            color: white;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<i id="nameOfCan" style="position: fixed; font-family: Arial; font-weight: bold; color: white; font-size: 20px"></i>
+<div class="Menu">
+    <p class="buttonDropdown">=</p>
+    <div class="dropdown-content">
+        <p><a href="THÍ SINH 2 - NHẬP TÊN.html" style="text-decoration: none; color: white">NHẬP TÊN</a></p>
+        <p><a href="THÍ SINH 2 - KHỞI ĐỘNG.html" style="text-decoration: none; color: white">KHỞI ĐỘNG</a></p>
+        <p><a href="THÍ SINH 2 - VCNV.html" style="text-decoration: none; color: white">VƯỢT CHƯỚNG NGẠI VẬT</a></p>
+        <p><a href="THÍ SINH 2 - TĂNG TỐC.html" style="text-decoration: none; color: white">TĂNG TỐC</a></p>
+        <p><a href="THÍ SINH 2 - VỀ ĐÍCH.html" style="text-decoration: none; color: white">VỀ ĐÍCH</a></p>
+        <p><a href="THÍ SINH 2 - CÂU HỎI PHỤ.html" style="text-decoration: none; color: white">CÂU HỎI PHỤ</a></p>
+    </div>
+</div>
+<p id="SectionName"></p>
+<p id="Time"></p>
+<p id="control" style="position: fixed;"></p>
+<img src="clock1.gif" id="clock" height="70px" width="70px">
+<section id="acceleration">
+    <p id="acceQuestionPane"></p>
+    <div id="acceAns">
+        <label>Trả lời: </label>
+        <input size="38" style="font-size: 50px; margin-left: 4px; text-align: center" id="ansAcce">
+    </div>
+    <div id="acceSent">
+        <label>Đã gửi: </label>
+        <input size="38" disabled style="font-size: 50px; text-align: center" id="sentAcce">
+    </div>
+</section>
+<p id="copyright"><i>&copy; TRƯƠNG ĐÌNH ĐỨC - THÍ SINH "ĐƯỜNG LÊN ĐỈNH OLYMPIA" NĂM THỨ 15</i></p>
+</body>
+<script>
+    var accelerationTime = 30;
+    var acceTimeAns = 0;
+    var control = 0;
+    var acceEventAdded = false;
+    var acceSet = false;
+    var controlPane = document.getElementById('control');
+    var sectionPane = document.getElementById('SectionName');
+    var timePane = document.getElementById('Time');
+    var acceAns = document.getElementById('acceAns');
+    var accePane = document.getElementById('acceQuestionPane');
+    var acceInterval = setInterval(initializedInterval, 1000);
+    var rejectAnswer = setInterval(initializedInterval, 1000);
+    var x = setInterval(initializedInterval, 1000);
+    var y = setInterval(initializedInterval, 1000);
+    var z = setInterval(initializedInterval, 1000);
+    var t = setInterval(initializedInterval, 1000);
+
+    function acceleration() {
+        clearAllInterval();
+        $('#nameOfCan').load("echoName.php");
+        setAcceleration();
+        acceInterval = setInterval(acceConnect, 10);
+        rejectAnswer = setInterval(accelerationLocks, 10);
+    }
+
+    acceleration();
+
+    function acceAnswer(time) {
+        if (!acceEventAdded) {
+            acceAns.addEventListener("keydown", function (e) {
+                if (e.keyCode === 13) {
+                    if (time > 0 && control == 1) {
+                        var ans = $("#ansAcce").val();
+                        if (ans != "") {
+                            $("#sentAcce").val(ans.toUpperCase());
+                            sendAcceAns();
+                            $("#ansAcce").val("");
+                        }
+                    } else {
+                        $("#ansAcce").val("");
+                        control = 0;
+                    }
+                }
+            });
+            acceEventAdded = true;
+        }
+    }
+
+    function setAcceleration() {
+        sectionPane.innerHTML = "PHẦN THI TĂNG TỐC";
+        timePane.innerHTML = accelerationTime;
+        acceTimeAns = 0;
+        var time = accelerationTime;
+        if (!acceSet) {
+            x = setInterval(function () {
+                if (accePane.innerHTML != '' && control == 1) {
+                    clearInterval(x);
+                    clearInterval(acceInterval);
+                    clearInterval(rejectAnswer);
+                    setTimeout(function () {
+                        rejectAnswer = setInterval(accelerationLocks, 1);
+                    }, 31000);
+                    setTimeout(function () {
+                        timePane.innerHTML = accelerationTime;
+                    }, 35000);
+                    setTimeout(function () {
+                        acceInterval = setInterval(acceConnect, 10);
+                    }, 45000);
+                    z = setInterval(function () {
+                        time--;
+                        timePane.innerHTML = time;
+                    }, 1000);
+                    t = setInterval(function () {
+                        acceTimeAns++;
+                    }, 10);
+                    console.log(time);
+                    y = setInterval(function () {
+                        acceAnswer(time);
+                        if (time < 0) {
+                            clearInterval(t);
+                            clearInterval(z);
+                            clearInterval(y);
+                            time = 0;
+                            timePane.innerHTML = "0";
+                        }
+                    }, 10);
+                }
+            }, 10);
+            acceSet = true;
+        }
+    }
+
+    function sendAcceAns() {
+        var acceAns2 = $('#sentAcce').val();
+        if (timePane.innerHTML >= 0)
+            $.ajax({
+                url: "../FILE XÁC NHẬN/TRẢ LỜI TĂNG TỐC/TLTT2.php",
+                type: "POST",
+                data: {'acceAns2': acceAns2.toUpperCase(), 'time2': acceTimeAns / 100},
+                success: function () {
+                }
+            });
+    }
+
+    function acceConnect() {
+        $('#control').load('AcceRemote.php');
+
+        if (controlPane.innerHTML == '0') {
+            control = 0;
+            if (!acceSet) setAcceleration();
+            onQues();
+            $("#sentAcce").val("");
+            $("#ansAcce").val("");
+        }
+        else if (controlPane.innerHTML == '1') {
+            control = 1;
+            acceSet = false;
+        }
+
+        else if (controlPane.innerHTML == '2') {
+            control = 2;
+            onQues();
+            $("#sentAcce").val("");
+            $("#ansAcce").val("");
+        }
+    }
+
+    function onQues() {
+        $('#acceQuestionPane').load('AcceQuestion.php');
+    }
+
+    function accelerationLocks() {
+        $('#ansAcce').val("");
+    }
+
+    function initializedInterval() {
+
+    }
+
+    function clearAllInterval() {
+        clearInterval(acceInterval);
+        clearInterval(rejectAnswer);
+        clearInterval(x);
+        clearInterval(y);
+        clearInterval(z);
+        clearInterval(t);
+    }
+</script>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THÍ SINH 3 - VCNV</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background-image: url("BackgroundCandidate.jpg");
+            background-size: cover;
+        }
+
+        .Menu {
+            position: relative;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+            display: inline-block;
+            float: right;
+            width: 30px;
+            z-index: 50;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 250px;
+            right: 0;
+            text-align: right;
+            box-shadow: black 3px 3px;
+            background-color: gray;
+            cursor: pointer;
+        }
+
+        .Menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p {
+            margin: 0;
+            border: 1px solid black;
+            padding: 10px 10px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-content p:hover {
+            display: block;
+            color: white;
+            font-size: 15px;
+            background-color: black;
+        }
+
+        #SectionName, #Time {
+            position: fixed;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+            color: white;
+            margin-left: 150px;
+        }
+
+        #Time {
+            font-size: 60px;
+            margin-left: 1000px;
+            margin-top: 20px;
+        }
+
+        #obstacleQuestionPane {
+            position: fixed;
+            background-color: black;
+            height: 250px;
+            width: 1200px;
+            margin-left: 75px;
+            margin-top: 100px;
+            border: white 2px solid;
+            color: white;
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #obstacAns {
+            position: fixed;
+            margin-top: 370px;
+        }
+
+        #obstacAns p, #obstacSent p {
+            float: left;
+            font-size: 25px;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #obstacSent {
+            position: fixed;
+            margin-top: 450px;
+        }
+
+        #obstacleButton {
+            position: fixed;
+            font-size: 50px;
+            font-weight: bold;
+            background-color: red;
+            color: white;
+            padding: 10px 430px;
+            margin-top: 550px;
+            margin-left: 85px;
+        }
+
+        #advenButton {
+            position: fixed;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: blue;
+            color: white;
+            padding: 10px 200px;
+            margin-top: 650px;
+            margin-left: 335px;
+        }
+
+        form {
+            position: fixed;
+            margin-left: 330px;
+            margin-top: 300px;
+        }
+
+        label {
+            font-size: 25px;
+            color: white;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        input {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        button {
+            position: fixed;
+            padding: 10.5px 15px;
+            margin-top: 300px;
+            margin-left: 920px;
+            font-weight: bold;
+            color: red;
+            background-color: white;
+        }
+
+        #clock {
+            position: fixed;
+            margin-left: 1100px;
+            margin-top: 20px;
+        }
+
+        #copyright {
+            position: fixed;
+            font-size: 15px;
+            font-family: Arial;
+            font-weight: bold;
+            bottom: -10px;
+            color: white;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<i id="nameOfCan" style="position: fixed; font-family: Arial; font-weight: bold; color: white; font-size: 20px"></i>
+<div class="Menu">
+    <p class="buttonDropdown">=</p>
+    <div class="dropdown-content">
+        <p><a href="THÍ SINH 3 - NHẬP TÊN.html" style="text-decoration: none; color: white">NHẬP TÊN</a></p>
+        <p><a href="THÍ SINH 3 - KHỞI ĐỘNG.html" style="text-decoration: none; color: white">KHỞI ĐỘNG</a></p>
+        <p><a href="THÍ SINH 3 - VCNV.html" style="text-decoration: none; color: white">VƯỢT CHƯỚNG NGẠI VẬT</a></p>
+        <p><a href="THÍ SINH 3 - TĂNG TỐC.html" style="text-decoration: none; color: white">TĂNG TỐC</a></p>
+        <p><a href="THÍ SINH 3 - VỀ ĐÍCH.html" style="text-decoration: none; color: white">VỀ ĐÍCH</a></p>
+        <p><a href="THÍ SINH 3 - CÂU HỎI PHỤ.html" style="text-decoration: none; color: white">CÂU HỎI PHỤ</a></p>
+    </div>
+</div>
+<p id="SectionName"></p>
+<p id="Time"></p>
+<img src="clock1.gif" id="clock" height="70px" width="70px">
+<p id="control" style="position: fixed; display: none"></p>
+<section id="obstacle">
+    <p id="obstacleQuestionPane"></p>
+    <div id="obstacAns">
+        <label>Trả lời: </label>
+        <input size="38" style="font-size: 50px; margin-left: 4px; text-align: center" id="ansObs">
+    </div>
+    <div id="obstacSent">
+        <label>Đã gửi: </label>
+        <input size="38" disabled style="font-size: 50px; text-align: center" id="sentObs">
+    </div>
+    <button id="obstacleButton" onclick="grantedObsAns()">TRẢ LỜI CNV</button>
+    <button id="advenButton" onclick="adven()">CHỌN Ô MẠO HIỂM</button>
+</section>
+<p id="copyright"><i>&copy; TRƯƠNG ĐÌNH ĐỨC - THÍ SINH "ĐƯỜNG LÊN ĐỈNH OLYMPIA" NĂM THỨ 15</i></p>
+</body>
+<script>
+    var obstacleTime = 15;
+    var control = 0;
+    var obsEventAdded = false;
+    var obsSet = false;
+    var sectionPane = document.getElementById('SectionName');
+    var timePane = document.getElementById('Time');
+    var obsAns = document.getElementById('ansObs');
+    var obstaclePane = document.getElementById('obstacleQuestionPane');
+    var obsInterval = setInterval(initializedInterval, 1000);
+    var rejectAnswer = setInterval(initializedInterval, 1000);
+    var x = setInterval(initializedInterval, 1000);
+    var y = setInterval(initializedInterval, 1000);
+    var z = setInterval(initializedInterval, 1000);
+
+    function rowAnswer(time) {
+        if (!obsEventAdded) {
+            obsAns.addEventListener("keydown", function (e) {
+                if (e.keyCode === 13) {
+                    if (time > 0 && control == 1) {
+                        var t = $("#ansObs").val();
+                        if (t != "") {
+                            $("#sentObs").val(t.toUpperCase());
+                            sendObsAns();
+                            $("#ansObs").val("");
+                        }
+                    } else {
+                        $("#ansObs").val("");
+                        control = 0;
+                    }
+                }
+            });
+            obsEventAdded = true;
+        }
+    }
+
+
+    function obstacle() {
+        clearAllInterval();
+        setObstacle();
+        $('#nameOfCan').load("echoName.php");
+        obsInterval = setInterval(obstacleConnect, 100);
+        rejectAnswer = setInterval(obstacleLocks, 10);
+    }
+
+    obstacle();
+
+    function setObstacle() {
+        sectionPane.innerHTML = "PHẦN THI VƯỢT CHƯỚNG NGẠI VẬT";
+        timePane.innerHTML = obstacleTime;
+        var time = obstacleTime;
+        if (!obsSet) {
+            x = setInterval(function () {
+                if (obstaclePane.innerHTML != '' && control == 1) {
+                    clearInterval(x);
+                    clearInterval(obsInterval);
+                    clearInterval(rejectAnswer);
+                    setTimeout(function () {
+                        rejectAnswer = setInterval(obstacleLocks, 10);
+                    }, 16000);
+                    setTimeout(function () {
+                        timePane.innerHTML = obstacleTime;
+                    }, 20000);
+                    setTimeout(function () {
+                        obsInterval = setInterval(obstacleConnect, 200);
+                    }, 30000);
+                    z = setInterval(function () {
+                        time--;
+                        timePane.innerHTML = time;
+                    }, 1000);
+                    y = setInterval(function () {
+                        rowAnswer(time);
+                        if (time < 0) {
+                            clearInterval(z);
+                            clearInterval(y);
+                            time = 0;
+                            timePane.innerHTML = "0";
+                        }
+                    }, 10);
+                }
+            }, 10);
+            obsSet = true;
+        }
+    }
+
+    function sendObsAns() {
+        var obsAns3 = $('#sentObs').val();
+        if (timePane.innerHTML >= 0)
+            $.ajax({
+                url: "../FILE XÁC NHẬN/TRẢ LỜI VCNV/CNV3.php",
+                type: "POST",
+                data: {'obsAns3': obsAns3.toUpperCase()},
+                success: function () {
+                }
+            });
+    }
+
+    function grantedObsAns() {
+        $.ajax({
+            url: "../FILE XÁC NHẬN/TRẢ LỜI CNV/TLCNV3.php",
+            type: "POST",
+            data: {'grantedAns3': 1},
+            success: function () {
+            }
+        });
+    }
+
+    function adven() {
+        $.ajax({
+            url: "../FILE XÁC NHẬN/CHỌN Ô MẠO HIỂM/OMH3.php",
+            type: "POST",
+            data: {'adven3': 1},
+            success: function () {
+            }
+        });
+    }
+
+    function obstacleConnect() {
+        $('#control').load('ObsRemote.php');
+        if ($('#control').html() == '0') {
+            control = 0;
+            onQues();
+            if (!obsSet) setObstacle();
+            $("#sentObs").val("");
+            $("#ansObs").val("");
+        }
+
+        else if ($('#control').html() == '1') {
+            control = 1;
+            obsSet = false;
+        }
+
+        else if ($('#control').html() == '2') {
+            control = 2;
+            onQues();
+            $("#sentObs").val("");
+            $("#ansObs").val("");
+        }
+    }
+
+    function onQues() {
+        $('#obstacleQuestionPane').load('ObsQuestion.php');
+    }
+
+    function obstacleLocks() {
+        $('#ansObs').val("");
+    }
+
+    function initializedInterval() {
+
+    }
+
+    function clearAllInterval() {
+        clearInterval(obsInterval);
+        clearInterval(rejectAnswer);
+        clearInterval(x);
+        clearInterval(y);
+        clearInterval(z);
+    }
+</script>
+</html>
